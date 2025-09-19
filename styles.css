@@ -31,29 +31,39 @@ body {
 /* ===== CSS VARIABLES (Custom Properties) ===== */
 :root {
     /* Light theme variables */
-    --wall-light: linear-gradient(135deg, #f7f3f0 0%, #ede7e1 100%);
-    --paper-light: rgba(255, 254, 249, 0.95);
-    --tape-light: linear-gradient(135deg, rgba(255, 220, 130, 0.9), rgba(240, 200, 100, 0.8));
-    --text-light: #2c2418;
+    --wall-light: #f9f6f2;
+    --paper-light: #fffdf9;
+    --tape-light: linear-gradient(135deg, rgba(140, 99, 84, 0.9), rgba(212, 165, 116, 0.8));
+    --text-light: #2a211c;
     --shadow-light: 0 8px 24px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.04);
+    --accent-light: #8c6354;
+    --secondary-light: #a78a7f;
+    --highlight-light: #d4a574;
     
     /* Dark theme variables */
-    --wall-dark: linear-gradient(135deg, #1a1612 0%, #0f0c08 100%);
-    --paper-dark: rgba(40, 35, 30, 0.95);
+    --wall-dark: #1a1626;
+    --paper-dark: #242036;
     --tape-dark: linear-gradient(135deg, rgba(120, 100, 60, 0.9), rgba(100, 85, 50, 0.8));
-    --text-dark: #f5f0e8;
+    --text-dark: #f0e6f2;
     --shadow-dark: 0 8px 24px rgba(0, 0, 0, 0.6), 0 4px 12px rgba(0, 0, 0, 0.4);
+    --accent-dark: #c9a679;
+    --secondary-dark: #9d8db3;
+    --highlight-dark: #d4b26a;
     
     /* Common variables */
-    --accent: linear-gradient(135deg, #d4a574, #c39660);
-    --accent-hover: linear-gradient(135deg, #e2b382, #d1a46e);
+    --accent: var(--accent-light);
+    --accent-hover: #9d7262;
     --mesh-light: rgba(212, 165, 116, 0.08);
     --mesh-dark: rgba(80, 65, 45, 0.15);
+    
+    /* Typography */
+    --font-heading: 'Crimson Text', 'Georgia', serif;
+    --font-body: 'Inter', sans-serif;
 }
 
 /* ===== BODY STYLES ===== */
 body {
-    font-family: 'Georgia', 'Times New Roman', serif;
+    font-family: var(--font-body);
     background: var(--wall-light);
     color: var(--text-light);
     min-height: 100vh;
@@ -86,32 +96,56 @@ body::after {
     right: 0;
     bottom: 0;
     background-image: 
-        linear-gradient(var(--mesh-light) 1px, transparent 1px),
-        linear-gradient(90deg, var(--mesh-light) 1px, transparent 1px);
+        linear-gradient(var(--mesh-light) 1px, transparent 2px),
+        linear-gradient(90deg, var(--mesh-light) 1px, transparent 2px);
     background-size: 30px 30px;
     pointer-events: none;
     z-index: -1;
-    opacity: 0.6;
+    opacity: 0.8;
     animation: meshMove 20s linear infinite;
 }
 
 /* Dark theme body styles */
-[data-theme="dark"] body {
+body[data-theme="dark"] {
+  font-family: var(--font-body);
     background: var(--wall-dark);
     color: var(--text-dark);
+    min-height: 100vh;
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow-x: hidden;
 }
 
-[data-theme="dark"] body::before {
+body[data-theme="dark"]::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     background: 
         radial-gradient(circle at 25% 35%, rgba(120, 90, 60, 0.2) 0%, transparent 70%),
         radial-gradient(circle at 75% 65%, rgba(80, 60, 40, 0.15) 0%, transparent 60%),
         conic-gradient(from 45deg at 50% 50%, transparent 0deg, rgba(60, 45, 30, 0.1) 90deg, transparent 180deg);
-}
+        pointer-events: none;
+    z-index: -2;
+    }
 
-[data-theme="dark"] body::after {
+body[data-theme="dark"]::after {
+  content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     background-image: 
-        linear-gradient(var(--mesh-dark) 1px, transparent 1px),
-        linear-gradient(90deg, var(--mesh-dark) 1px, transparent 1px);
+        linear-gradient(var(--mesh-dark) 1px, transparent 2px),
+        linear-gradient(90deg, var(--mesh-dark) 1px, transparent 2px);
+    background-size: 30px 30px;
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.8;
+    animation: meshMove 20s linear infinite;
 }
 
 /* ===== NAVBAR STYLES ===== */
@@ -166,7 +200,7 @@ body::after {
     transition: opacity 0.4s ease;
 }
 
-/* Dark theme navbar styles */
+/* Dark theme  styles */
 [data-theme="dark"] .theme-toggle {
     background: var(--paper-dark);
     color: var(--text-dark);
@@ -212,21 +246,22 @@ body::after {
 
 .main-title {
     font-size: clamp(2.8rem, 8vw, 5.5rem);
-    font-weight: 300;
+    font-weight: 700;
     color: var(--text-light);
     text-shadow: 3px 3px 12px rgba(0,0,0,0.15);
     margin-bottom: 1.2rem;
-    font-family: 'Georgia', serif;
-    letter-spacing: 4px;
-    background: linear-gradient(135deg, var(--text-light), rgba(212, 165, 116, 0.8));
+    font-family: var(--font-heading);
+    letter-spacing: 2px;
+    background: linear-gradient(135deg, var(--accent-light), var(--highlight-light));
     -webkit-background-clip: text;
     background-clip: text;
+    -webkit-text-fill-color: transparent;
     animation: titleFloat 8s ease-in-out infinite;
     position: relative;
 }
 
 [data-theme="dark"] .main-title {
-    background: linear-gradient(135deg, var(--text-dark), rgba(212, 165, 116, 1));
+    background: linear-gradient(135deg, var(--accent-dark), var(--highlight-dark));
     -webkit-background-clip: text;
     background-clip: text;
     text-shadow: 3px 3px 12px rgba(0,0,0,0.4);
@@ -235,18 +270,27 @@ body::after {
 .subtitle {
     font-size: 1.2rem;
     font-style: italic;
-    background: var(--accent);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 2rem;
-    opacity: 0.95;
-    animation: subtitleGlow 5s ease-in-out infinite alternate;
+    color: var(--secondary-light);
+    margin-bottom: 2px;
+    opacity: 1;
+    font-family: var(--font-heading);
+    line-height: 1.6;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 4px;
+    border-left: 3px solid var(--accent);
+    background: rgba(212, 165, 116, 0.05);
+    border-radius: 4px;
+}
+
+[data-theme="dark"] .subtitle {
+    color: var(--secondary-dark);
 }
 
 /* ===== POEMS WALL STYLES ===== */
 .poems-wall {
-    padding: 2rem;
+    padding: 1rem;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 3rem 2.5rem;
@@ -267,7 +311,7 @@ body::after {
     transform: rotate(var(--rotation)) translateZ(0);
     box-shadow: var(--shadow-light);
     border: 2px solid rgba(212, 165, 116, 0.25);
-    font-family: 'Georgia', serif;
+    font-family: var(--font-body);
     min-height: 240px;
     overflow: hidden;
     will-change: transform;
@@ -334,19 +378,16 @@ body::after {
     font-size: 1.4rem;
     font-weight: 600;
     margin-bottom: 1.2rem;
-    color: var(--text-light);
-    background: var(--accent);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--accent-light);
     border-bottom: 2px solid;
-    border-image: var(--accent) 1;
+    border-image: linear-gradient(135deg, var(--accent-light), var(--highlight-light)) 1;
     padding-bottom: 0.8rem;
-    font-family: 'Georgia', serif;
+    font-family: var(--font-heading);
 }
 
 [data-theme="dark"] .poem-title { 
-    color: var(--text-dark); 
+    color: var(--accent-dark);
+    border-image: linear-gradient(135deg, var(--accent-dark), var(--highlight-dark)) 1;
 }
 
 .poem-preview {
@@ -378,7 +419,7 @@ body::after {
 }
 
 .poem-category {
-    background: var(--accent);
+    background: linear-gradient(135deg, var(--accent-light), var(--highlight-light));
     color: white;
     padding: 6px 12px;
     border-radius: 18px;
@@ -389,10 +430,18 @@ body::after {
     box-shadow: 0 4px 12px rgba(212, 165, 116, 0.35);
 }
 
+[data-theme="dark"] .poem-category {
+    background: linear-gradient(135deg, var(--accent-dark), var(--highlight-dark));
+}
+
 .poem-date {
-    color: rgba(212, 165, 116, 0.85);
+    color: var(--secondary-light);
     font-weight: 500;
     font-size: 0.8rem;
+}
+
+[data-theme="dark"] .poem-date {
+    color: var(--secondary-dark);
 }
 
 /* ===== MODAL STYLES ===== */
@@ -468,24 +517,29 @@ body::after {
 }
 
 .modal-header {
-    padding: 3rem 3rem 1.5rem;
+    padding: 1.5rem 2rem 1.5rem;
     border-bottom: 3px solid;
-    border-image: var(--accent) 1;
+    border-image: linear-gradient(135deg, var(--accent-light), var(--highlight-light)) 1;
     display: flex;
     justify-content: space-between;
     align-items: center;
     position: relative;
 }
 
+[data-theme="dark"] .modal-header {
+    border-image: linear-gradient(135deg, var(--accent-dark), var(--highlight-dark)) 1;
+}
+
 .modal-title {
     font-size: 2.2rem;
-    font-weight: 500;
-    background: var(--accent);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-family: 'Georgia', serif;
+    font-weight: 600;
+    color: var(--accent-light);
+    font-family: var(--font-heading);
     flex: 1;
+}
+
+[data-theme="dark"] .modal-title {
+    color: var(--accent-dark);
 }
 
 .close-btn {
@@ -493,7 +547,7 @@ body::after {
     height: 40px;
     border-radius: 50%;
     border: none;
-    background: var(--accent);
+    background: linear-gradient(135deg, var(--accent-light), var(--highlight-light));
     color: white;
     cursor: pointer;
     display: flex;
@@ -507,8 +561,12 @@ body::after {
 
 .close-btn:hover {
     transform: rotate(270deg) scale(1.15);
-    background: var(--accent-hover);
+    background: linear-gradient(135deg, var(--accent-hover), #e2b382);
     box-shadow: 0 10px 28px rgba(212, 165, 116, 0.5);
+}
+
+[data-theme="dark"] .close-btn {
+    background: linear-gradient(135deg, var(--accent-dark), var(--highlight-dark));
 }
 
 .modal-body {
@@ -524,7 +582,7 @@ body::after {
     line-height: 2;
     white-space: pre-line;
     color: var(--text-light);
-    font-family: 'Georgia', serif;
+    font-family: var(--font-body);
     text-align: left;
     position: relative;
     z-index: 5;
@@ -588,11 +646,37 @@ body::after {
 }
 
 .love .floating-geometric {
+    position: relative;
     width: 12px;
     height: 12px;
-    background: linear-gradient(45deg, transparent 30%, #ff69b4 50%, transparent 70%);
-    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    background: #ff69b4; /* hot pink heart */
+    transform: rotate(-45deg); /* tilt to form heart */
+    border-radius: 2px;
 }
+
+/* Top circles of the heart */
+.love .floating-geometric::before,
+.love .floating-geometric::after {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: #ff69b4;
+    border-radius: 50%;
+}
+
+/* left bump */
+.love .floating-geometric::before {
+    top: -6px;
+    left: 0;
+}
+
+/* right bump */
+.love .floating-geometric::after {
+    top: 0;
+    left: 6px;
+}
+
 
 /* Depressed theme styles */
 .depressed .theme-elements {
@@ -725,10 +809,11 @@ body::after {
 .footer {
     text-align: center;
     padding: 2.5rem 2rem 1.5rem;
-    color: rgba(212, 165, 116, 0.8);
+    color: var(--secondary-light);
     font-size: 0.95rem;
     font-style: italic;
     position: relative;
+    font-family: var(--font-body);
 }
 
 .footer::before {
@@ -739,12 +824,16 @@ body::after {
     transform: translateX(-50%);
     width: 70px;
     height: 2px;
-    background: var(--accent);
+    background: linear-gradient(135deg, var(--accent-light), var(--highlight-light));
     border-radius: 1px;
 }
 
 [data-theme="dark"] .footer {
-    color: rgba(212, 165, 116, 0.9);
+    color: var(--secondary-dark);
+}
+
+[data-theme="dark"] .footer::before {
+    background: linear-gradient(135deg, var(--accent-dark), var(--highlight-dark));
 }
 
 /* ===== ANIMATIONS ===== */
@@ -809,7 +898,7 @@ body::after {
     .poem-paper { padding: 2rem 1.8rem; min-height: 220px; }
     .modal { padding: 1.5rem; }
     .modal-content { max-height: 92vh; }
-    .modal-header, .modal-body { padding: 2.5rem 2rem; }
+    .modal-header, .modal-body { padding: 1.5rem 1.5rem; }
     .modal-title { font-size: 1.8rem; }
     .footer { padding: 2rem 1.5rem 1rem; }
 }
@@ -819,6 +908,6 @@ body::after {
     .subtitle { font-size: 0.9rem; }
     .poem-paper { padding: 1.8rem 1.5rem; }
     .poem-title { font-size: 1.2rem; }
-    .modal-header, .modal-body { padding: 2rem 1.8rem; }
+    .modal-header, .modal-body { padding: 1.5rem 1.5rem; }
     .poem-body { font-size: 1.1rem; }
 }
